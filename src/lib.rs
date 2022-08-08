@@ -2,7 +2,11 @@ use rust_decimal::Decimal;
 use serde::{Deserialize, Deserializer, Serialize};
 use std::{fmt, ops::*, str::FromStr};
 
+#[cfg(feature = "borsh")]
+use borsh::{BorshDeserialize, BorshSerialize};
+
 #[derive(Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Clone, Copy)]
+#[cfg_attr(feature = "borsh", derive(BorshSerialize, BorshDeserialize))]
 #[serde(transparent)]
 pub struct NormDecimal(Decimal);
 
