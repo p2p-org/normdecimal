@@ -4,6 +4,9 @@ description = "Always normal decimal numbers"
 version = "0.1.2"
 authors = ["Konstantin Stepanov <me@kstep.me>"]
 edition = "2021"
+license = "MIT"
+categories = ["mathematics", "data-structures"]
+keywords = ["decimal", "decnumber"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
