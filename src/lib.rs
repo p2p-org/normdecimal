@@ -8,6 +8,7 @@ use borsh::{BorshDeserialize, BorshSerialize};
 #[derive(Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Clone, Copy)]
 #[cfg_attr(feature = "borsh", derive(BorshSerialize, BorshDeserialize))]
 #[serde(transparent)]
+#[cfg_attr(feature = "sqlx", derive(sqlx::Type), sqlx(transparent))]
 pub struct NormDecimal(Decimal);
 
 impl FromStr for NormDecimal {

@@ -1,7 +1,7 @@
 [package]
 name = "normdecimal"
 description = "Always normal decimal numbers"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Konstantin Stepanov <me@kstep.me>"]
 edition = "2021"
 
@@ -9,8 +9,11 @@ edition = "2021"
 
 [features]
 borsh = ["rust_decimal/borsh", "dep:borsh"]
+sqlx = ["dep:sqlx"]
+postgres = ["sqlx/postgres"]
 
 [dependencies]
 rust_decimal = "1"
 serde = { version = "1", features = ["derive"] }
 borsh = { version = "0.9", optional = true }
+sqlx = { version = "0.6", optional = true, features = ["runtime-tokio-native-tls", "decimal"] }
