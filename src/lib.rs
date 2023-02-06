@@ -5,7 +5,7 @@ use std::{fmt, ops::*, str::FromStr};
 #[cfg(feature = "borsh")]
 use borsh::{BorshDeserialize, BorshSerialize};
 
-#[derive(Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Clone, Copy)]
+#[derive(Debug, Ord, PartialOrd, Eq, PartialEq, Serialize, Clone, Copy, Default)]
 #[cfg_attr(feature = "borsh", derive(BorshSerialize, BorshDeserialize))]
 #[serde(transparent)]
 #[cfg_attr(feature = "sqlx", derive(sqlx::Type), sqlx(transparent))]
