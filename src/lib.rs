@@ -39,6 +39,12 @@ impl Deref for NormDecimal {
     }
 }
 
+impl DerefMut for NormDecimal {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
 impl fmt::Display for NormDecimal {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         self.0.fmt(f)
