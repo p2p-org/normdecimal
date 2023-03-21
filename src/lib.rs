@@ -1,4 +1,4 @@
-use rust_decimal::Decimal;
+use rust_decimal::{Decimal, Error};
 use serde::{Deserialize, Deserializer, Serialize};
 use std::{fmt, ops::*, str::FromStr};
 
@@ -11,11 +11,46 @@ use borsh::{BorshDeserialize, BorshSerialize};
 #[cfg_attr(feature = "sqlx", derive(sqlx::Type), sqlx(transparent))]
 pub struct NormDecimal(Decimal);
 
+impl NormDecimal {
+    pub fn rescale(&mut self, scale: u32) {
+        self.0.rescale(scale);
+        self.0.normalize_assign();
+    }
+
+    pub fn set_scale(&mut self, scale: u32) -> Result<(), Error> {
+        self.0.set_scale(scale)?;
+        self.0.normalize_assign();
+        Ok(())
+    }
+
+    pub fn set_sign_negative(&mut self, negative: bool) {
+        self.0.set_sign_negative(negative);
+    }
+
+    pub fn set_sign_positive(&mut self, positive: bool) {
+        self.0.set_sign_positive(positive);
+    }
+
+    pub fn max(self, other: impl Into<Decimal>) -> Self {
+        Self::from(other.into().max(self.0))
+    }
+
+    pub fn min(self, other: impl Into<Decimal>) -> Self {
+        Self::from(other.into().min(self.0))
+    }
+}
+
 impl FromStr for NormDecimal {
     type Err = <Decimal as FromStr>::Err;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         Decimal::from_str(s).map(Into::into)
+    }
+}
+
+impl From<NormDecimal> for Decimal {
+    fn from(value: NormDecimal) -> Self {
+        value.0
     }
 }
 
@@ -36,12 +71,6 @@ impl Deref for NormDecimal {
 
     fn deref(&self) -> &Self::Target {
         &self.0
-    }
-}
-
-impl DerefMut for NormDecimal {
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
     }
 }
 
