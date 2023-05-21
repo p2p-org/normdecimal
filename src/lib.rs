@@ -1,6 +1,11 @@
 use rust_decimal::{Decimal, Error};
 use serde::{Deserialize, Deserializer, Serialize};
-use std::{fmt, ops::*, str::FromStr};
+use std::{
+    fmt,
+    iter::{Product, Sum},
+    ops::*,
+    str::FromStr,
+};
 
 #[cfg(feature = "borsh")]
 use borsh::{BorshDeserialize, BorshSerialize};
@@ -12,6 +17,9 @@ use borsh::{BorshDeserialize, BorshSerialize};
 pub struct NormDecimal(Decimal);
 
 impl NormDecimal {
+    pub const ZERO: NormDecimal = NormDecimal(Decimal::ZERO);
+    pub const ONE: NormDecimal = NormDecimal(Decimal::ONE);
+
     pub fn rescale(&mut self, scale: u32) {
         self.0.rescale(scale);
         self.0.normalize_assign();
@@ -206,5 +214,17 @@ where
 {
     fn rem_assign(&mut self, rhs: T) {
         *self = *self % rhs;
+    }
+}
+
+impl Sum for NormDecimal {
+    fn sum<I: Iterator<Item = Self>>(iter: I) -> Self {
+        iter.fold(NormDecimal::ZERO, Add::add)
+    }
+}
+
+impl Product for NormDecimal {
+    fn product<I: Iterator<Item = Self>>(iter: I) -> Self {
+        iter.fold(NormDecimal::ONE, Mul::mul)
     }
 }
