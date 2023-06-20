@@ -20,17 +20,6 @@ impl NormDecimal {
     pub const ZERO: NormDecimal = NormDecimal(Decimal::ZERO);
     pub const ONE: NormDecimal = NormDecimal(Decimal::ONE);
 
-    pub fn rescale(&mut self, scale: u32) {
-        self.0.rescale(scale);
-        self.0.normalize_assign();
-    }
-
-    pub fn set_scale(&mut self, scale: u32) -> Result<(), Error> {
-        self.0.set_scale(scale)?;
-        self.0.normalize_assign();
-        Ok(())
-    }
-
     pub fn set_sign_negative(&mut self, negative: bool) {
         self.0.set_sign_negative(negative);
     }
