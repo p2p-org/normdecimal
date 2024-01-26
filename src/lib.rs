@@ -1,4 +1,4 @@
-use rust_decimal::{Decimal, Error};
+use rust_decimal::Decimal;
 use serde::{Deserialize, Deserializer, Serialize};
 use std::{
     fmt,
