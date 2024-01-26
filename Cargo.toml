@@ -1,7 +1,7 @@
 [package]
 name = "normdecimal"
 description = "Always normal decimal numbers"
-version = "0.1.7"
+version = "0.1.8"
 authors = ["Konstantin Stepanov <me@kstep.me>"]
 edition = "2021"
 license = "MIT"
